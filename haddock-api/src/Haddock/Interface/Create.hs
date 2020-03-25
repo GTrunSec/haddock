@@ -1076,8 +1076,8 @@ extractDecl declMap name decl
       TyClD _ d@DataDecl {} ->
         let (n, tyvar_tys) = (tcdName d, lHsQTyVarsToTypes (tyClDeclTyVars d))
         in if isDataConName name
-           then SigD noExtField <$> extractPatternSyn name n (map HsValArg tyvar_tys) (dd_cons (tcdDataDefn d))
-           else SigD noExtField <$> extractRecSel name n (map HsValArg tyvar_tys) (dd_cons (tcdDataDefn d))
+           then SigD noExtField <$> extractPatternSyn name n tyvar_tys (dd_cons (tcdDataDefn d))
+           else SigD noExtField <$> extractRecSel name n tyvar_tys (dd_cons (tcdDataDefn d))
       TyClD _ FamDecl {}
         | isValName name
         , Just (famInst:_) <- M.lookup name declMap
@@ -1136,7 +1136,7 @@ extractPatternSyn nm t tvs cons =
           case con of
             ConDeclH98 { con_mb_cxt = Just cxt } -> noLoc (HsQualTy noAnn cxt typ)
             _ -> typ
-        typ'' = noLoc (HsQualTy noAnn (noLoc []) typ')
+        typ'' = noLoc (HsQualTy noAnn (noLocA []) typ')
     in PatSynSig noAnn [noLocA nm] (mkEmptyImplicitBndrs typ'')
 
   longArrow :: [LHsType GhcRn] -> LHsType GhcRn -> LHsType GhcRn

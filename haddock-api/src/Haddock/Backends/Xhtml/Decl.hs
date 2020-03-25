@@ -373,7 +373,7 @@ ppFamHeader summary associated (FamilyDecl { fdInfo = info
 
     injAnn = case injectivity of
       Nothing -> noHtml
-      Just (L _ (InjectivityAnn lhs rhs)) -> hsep ( keyword "|"
+      Just (L _ (InjectivityAnn _ lhs rhs)) -> hsep ( keyword "|"
                                                   : ppLDocName qual Raw lhs
                                                   : arrow unicode
                                                   : map (ppLDocName qual Raw) rhs)
@@ -447,7 +447,7 @@ ppTypeApp n ts ppDN ppT = ppDN Prefix n <+> hsep (map ppT ts)
 -------------------------------------------------------------------------------
 
 
-ppLContext, ppLContextNoArrow :: Located (HsContext DocNameI) -> Unicode
+ppLContext, ppLContextNoArrow :: LHsContext DocNameI -> Unicode
                               -> Qualification -> HideEmptyContexts -> Html
 ppLContext        = ppContext        . unLoc
 ppLContextNoArrow = ppContextNoArrow . unLoc
@@ -484,7 +484,7 @@ ppHsContext cxt unicode qual = parenList (map (ppType unicode qual HideEmptyCont
 -------------------------------------------------------------------------------
 
 
-ppClassHdr :: Bool -> Located [LHsType DocNameI] -> DocName
+ppClassHdr :: Bool -> LocatedA [LHsType DocNameI] -> DocName
            -> LHsQTyVars DocNameI -> [Located ([LocatedA DocName], [LocatedA DocName])]
            -> Unicode -> Qualification -> Html
 ppClassHdr summ lctxt n tvs fds unicode qual =
@@ -831,7 +831,7 @@ ppShortConstrParts summary dataInst con unicode qual
                 , con_ex_tvs = vars
                 , con_mb_cxt = cxt
                 } -> let tyVars = map (getName . hsLTyVarNameI) vars
-                         context = unLoc (fromMaybe (noLoc []) cxt)
+                         context = unLoc (fromMaybe (noLocA []) cxt)
                          forall_ = False
                          header_ = ppConstrHdr forall_ tyVars context unicode qual
                      in case det of
@@ -905,7 +905,7 @@ ppSideBySideConstr subdocs fixities unicode pkg qual (L _ con)
                 , con_ex_tvs = vars
                 , con_mb_cxt = cxt
                 } -> let tyVars = map (getName . hsLTyVarNameI) vars
-                         context = unLoc (fromMaybe (noLoc []) cxt)
+                         context = unLoc (fromMaybe (noLocA []) cxt)
                          forall_ = False
                          header_ = ppConstrHdr forall_ tyVars context unicode qual
                      in case det of
