@@ -34,16 +34,16 @@ import ErrUtils
 import GHC.Core.FamInstEnv
 import GHC
 import GHC.Core.InstEnv
-import Module ( ModuleSet, moduleSetElts )
+import GHC.Types.Module ( ModuleSet, moduleSetElts )
 import MonadUtils (liftIO)
-import Name
-import NameEnv
+import GHC.Types.Name
+import GHC.Types.Name.Env
 import Outputable (text, sep, (<+>))
-import SrcLoc
+import GHC.Types.SrcLoc
 import GHC.Core.TyCon
 import GHC.Core.TyCo.Rep
 import TysPrim( funTyConName )
-import Var hiding (varName)
+import GHC.Types.Var hiding (varName)
 
 type ExportedNames = Set.Set Name
 type Modules = Set.Set Module
@@ -101,7 +101,7 @@ attachToExportItem index expInfo getInstDoc getFixity export =
             fam_instances = maybeToList mb_instances >>= snd
             fam_insts = [ ( synFamInst
                           , getInstDoc n
-                          , spanNameE n synFamInst (L eSpan (tcdName d))
+                          , spanNameE n synFamInst (L (locA eSpan) (tcdName d))
                           , nameModule_maybe n
                           )
                         | i <- sortBy (comparing instFam) fam_instances
@@ -113,7 +113,7 @@ attachToExportItem index expInfo getInstDoc getFixity export =
                         ]
             cls_insts = [ ( synClsInst
                           , getInstDoc n
-                          , spanName n synClsInst (L eSpan (tcdName d))
+                          , spanName n synClsInst (L (locA eSpan) (tcdName d))
                           , nameModule_maybe n
                           )
                         | let is = [ (instanceSig i, getName i) | i <- cls_instances ]

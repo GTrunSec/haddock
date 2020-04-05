@@ -62,7 +62,6 @@ import qualified GHC.Paths as GhcPaths
 import Paths_haddock_api (getDataDir)
 #endif
 import System.Directory (doesDirectoryExist, getTemporaryDirectory)
-import System.FilePath ((</>))
 
 import Text.ParserCombinators.ReadP (readP_to_S)
 import GHC hiding (verbosity)
@@ -71,7 +70,7 @@ import GHC.Driver.Session hiding (projectVersion, verbosity)
 import ErrUtils
 import GHC.Driver.Packages
 import Panic (handleGhcException)
-import Module
+import GHC.Types.Module
 import FastString
 import qualified GHC.Runtime.Loader
 
