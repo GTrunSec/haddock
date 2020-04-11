@@ -11,10 +11,10 @@ import qualified Data.ByteString as BS
 
 import GHC.Types.Basic     ( IntegralLit(..) )
 import GHC.Driver.Session
-import ErrUtils            ( emptyMessages, pprLocErrMsg )
+import ErrUtils            ( pprLocErrMsg )
 import FastString          ( mkFastString )
 import Lexer               ( P(..), ParseResult(..), PState(..), Token(..)
-                           , mkPStatePure, lexer, mkParserFlags', getErrorMessages, addFatalError )
+                           , mkPStatePure, lexer, mkParserFlags', getErrorMessages )
 import Bag                 ( bagToList )
 import Outputable          ( showSDoc, panic, text, ($$) )
 import GHC.Types.SrcLoc
