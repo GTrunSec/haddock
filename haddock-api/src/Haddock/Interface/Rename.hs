@@ -405,9 +405,9 @@ renameTyClD d = case d of
                       , tcdFixity = fixity
                       , tcdFDs = lfundeps', tcdSigs = lsigs', tcdMeths= emptyBag
                       , tcdATs = ats', tcdATDefs = at_defs', tcdDocs = [], tcdCExt = noExtField })
-  XTyClDecl nec -> noExtCon nec
 
   where
+    renameLFunDep :: LHsFunDep GhcRn -> RnM (LHsFunDep DocNameI)
     renameLFunDep (L loc (FunDep _ xs ys)) = do
       xs' <- mapM rename (map unLoc xs)
       ys' <- mapM rename (map unLoc ys)

@@ -238,7 +238,6 @@ tyClDeclLNameI (FamDecl { tcdFam = fd })     = familyDeclLNameI fd
 tyClDeclLNameI (SynDecl { tcdLName = ln })   = ln
 tyClDeclLNameI (DataDecl { tcdLName = ln })  = ln
 tyClDeclLNameI (ClassDecl { tcdLName = ln }) = ln
-tyClDeclLNameI (XTyClDecl nec) = noExtCon nec
 
 tcdNameI :: TyClDecl DocNameI -> DocName
 tcdNameI = unLoc . tyClDeclLNameI
